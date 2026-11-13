@@ -75,3 +75,21 @@ $projectPath = 'D:\Work\MyProject'
 ## 日常使用
 
 先调用 get_status，再用 check_file 检查目标。明文或不存在的文件用普通工具处理。加密文件用 search_code、read_source 和 prepare_edit。已授权的修改默认直接备份并写回，dry_run=true 用于只预览。发生检测错误或写回锁定时，停止写入并报告原始错误。详见 AGENTS.md。
+
+## 在 Codex 中启用 AI 产品经理设定
+
+仓库提供一份独立的 [AI 产品经理工作手册](templates/codex/product-manager/AGENTS.md)，包含需求确认、任务下达、静态审核和 safe_edit 操作约定。
+
+1. 在 safe_edit 仓库中执行 `git pull`，然后把模板复制到**目标业务项目的根目录**，文件名为 `AGENTS.md`。
+2. 如果项目已有 `AGENTS.md`，将手册合并到现有文件，保留项目约定并处理冲突。同一目录如果已有 `AGENTS.override.md`，Codex 会优先加载它，此时将手册合并到实际生效的文件。
+3. 在 Codex 中打开目标业务项目并新建会话。可让 Codex 概述当前角色、审批规则和 safe_edit 约定，确认已读到手册。加载规则见 [OpenAI 官方文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)。
+
+也可以在 safe_edit 仓库打开 Codex，把下面这段交给它执行。
+
+```text
+请把 templates/codex/product-manager/AGENTS.md 接入目标业务项目【绝对路径】。
+项目已有 AGENTS.md 或 AGENTS.override.md 时，先查看并保留现有约定，再合并到 Codex 实际加载的文件。
+完成后告诉我写入了哪个文件。我会在目标业务项目里开启新会话。
+```
+
+手册中的 safe_edit 调用需要先完成上面的 MCP 接入。第五节适用于透明加密文件，第六节针对使用 Keil ARMCC 5 的项目。
